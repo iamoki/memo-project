@@ -1,7 +1,9 @@
 function MemoItem({ children, onClick }) {
   return (
     <div>
-      <div onClick={onClick}>{children}</div>
+      <div className="MemoItem" onClick={onClick}>
+        {children}
+      </div>
     </div>
   );
 }

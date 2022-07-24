@@ -8,6 +8,13 @@
   background-color: aqua;
 }
 
+.MemoItem {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .MemoContainer {
   flex: 1;
   background-color: lightpink;
