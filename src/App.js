@@ -2,23 +2,11 @@ import { useState } from 'react';
 import './App.css';
 import MemoContainer from './components/MemoContainer';
 import SideBar from './components/SideBar';
+import { getItem, setItem } from './lib/storage';
 
 function App() {
   // 메모 리스트
-  const [memos, setMemos] = useState([
-    {
-      title: 'Memo 1',
-      content: 'This is Memo 1',
-      createdAt: 1658651088625,
-      updatedAt: 1658651088625,
-    },
-    {
-      title: 'Memo 2',
-      content: 'This is Memo 2',
-      createdAt: 1658651109922,
-      updatedAt: 1658651109922,
-    },
-  ]);
+  const [memos, setMemos] = useState(getItem('memo') || []);
 
   // 어떤 메모를 선택했는지 해당 메모의 인덱스값을 상태로 보존
   const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
@@ -31,12 +19,14 @@ function App() {
     newMemos[selectedMemoIndex] = newMemo;
 
     setMemos(newMemos);
+    setItem('memo', newMemos);
   };
 
   // 메모 추가하기
   const addMemo = () => {
     const now = new Date().getTime();
-    setMemos([
+
+    const newMemos = [
       ...memos,
       {
         title: 'Untitled',
@@ -44,9 +34,12 @@ function App() {
         createdAt: now,
         updatedAt: now,
       },
-    ]);
+    ];
+
+    setMemos(newMemos);
     // 방금 생성한 메모가 선택되게끔 memos의 인덱스 마지막값 가져오기
     setSelectedMemoIndex(memos.length);
+    setItem('memo', newMemos);
   };
 
   // 메모 삭제하기
@@ -58,6 +51,7 @@ function App() {
     if (index === selectedMemoIndex) {
       setSelectedMemoIndex(0);
     }
+    setItem('memo', newMemos);
   };
 
   return (
