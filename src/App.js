@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import './App.css';
 import MemoContainer from './components/MemoContainer';
 import SideBar from './components/SideBar';
@@ -16,47 +16,60 @@ function App() {
   const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
 
   // 메모내용 수정하기
-  const setMemo = (newMemo) => {
-    // 불변성 유지를 위해 미리 memos를 카피 후 그안에 newMemo를 삽입
-    const newMemos = [...memos];
+  const setMemo = useCallback(
+    (newMemo) => {
+      setMemos((memos) => {
+        // 불변성 유지를 위해 미리 memos를 카피 후 그안에 newMemo를 삽입
+        const newMemos = [...memos];
 
-    newMemos[selectedMemoIndex] = newMemo;
+        newMemos[selectedMemoIndex] = newMemo;
+        debouncedSetItem('memo', newMemos);
 
-    setMemos(newMemos);
-    debouncedSetItem('memo', newMemos);
-  };
+        return newMemos;
+      });
+    },
+    [selectedMemoIndex],
+  );
 
   // 메모 추가하기
-  const addMemo = () => {
-    const now = new Date().getTime();
+  const addMemo = useCallback(() => {
+    setMemos((memos) => {
+      const now = new Date().getTime();
+      const newMemos = [
+        ...memos,
+        {
+          title: 'Untitled',
+          content: '',
+          createdAt: now,
+          updatedAt: now,
+        },
+      ];
 
-    const newMemos = [
-      ...memos,
-      {
-        title: 'Untitled',
-        content: '',
-        createdAt: now,
-        updatedAt: now,
-      },
-    ];
+      debouncedSetItem('memo', newMemos);
 
-    setMemos(newMemos);
+      return newMemos;
+    });
     // 방금 생성한 메모가 선택되게끔 memos의 인덱스 마지막값 가져오기
     setSelectedMemoIndex(memos.length);
-    debouncedSetItem('memo', newMemos);
-  };
+  }, [memos]);
 
   // 메모 삭제하기
-  const deleteMemo = (index) => {
-    const newMemos = [...memos];
-    newMemos.splice(index, 1);
+  const deleteMemo = useCallback(
+    (index) => {
+      setMemos((memos) => {
+        const newMemos = [...memos];
+        newMemos.splice(index, 1);
 
-    setMemos(newMemos);
-    if (index === selectedMemoIndex) {
-      setSelectedMemoIndex(0);
-    }
-    debouncedSetItem('memo', newMemos);
-  };
+        debouncedSetItem('memo', newMemos);
+
+        return newMemos;
+      });
+      if (index === selectedMemoIndex) {
+        setSelectedMemoIndex(0);
+      }
+    },
+    [selectedMemoIndex],
+  );
 
   return (
     <div className="App">

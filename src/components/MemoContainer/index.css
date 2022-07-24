@@ -14,6 +14,7 @@
   min-height: 600px;
   font-size: 1.1rem;
   border: none;
+  resize: none;
 }
 
 .MemoContainer_title,
