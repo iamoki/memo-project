@@ -23,6 +23,7 @@ function App() {
   // 어떤 메모를 선택했는지 해당 메모의 인덱스값을 상태로 보존
   const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
 
+  // 메모내용 수정하기
   const setMemo = (newMemo) => {
     // 불변성 유지를 위해 미리 memos를 카피 후 그안에 newMemo를 삽입
     const newMemos = [...memos];
@@ -32,10 +33,27 @@ function App() {
     setMemos(newMemos);
   };
 
+  // 메모 추가하기
+  const addMemo = () => {
+    const now = new Date().getTime();
+    setMemos([
+      ...memos,
+      {
+        title: 'Untitled',
+        content: '',
+        createdAt: now,
+        updatedAt: now,
+      },
+    ]);
+    // 방금 생성한 메모가 선택되게끔 memos의 인덱스 마지막값 가져오기
+    setSelectedMemoIndex(memos.length);
+  };
+
   return (
     <div className="App">
       <SideBar
         memos={memos}
+        addMemo={addMemo}
         selectedMemoIndex={selectedMemoIndex}
         setSelectedMemoIndex={setSelectedMemoIndex}
       />

@@ -2,7 +2,7 @@ import MemoList from './MemoList';
 import SideBarFooter from './SideBarFooter';
 import SideBarHeader from './SideBarHeader';
 
-function SideBar({ memos, setSelectedMemoIndex, selectedMemoIndex }) {
+function SideBar({ memos, addMemo, setSelectedMemoIndex, selectedMemoIndex }) {
   return (
     <div className="SideBar">
       <SideBarHeader />
@@ -11,7 +11,7 @@ function SideBar({ memos, setSelectedMemoIndex, selectedMemoIndex }) {
         selectedMemoIndex={selectedMemoIndex}
         setSelectedMemoIndex={setSelectedMemoIndex}
       />
-      <SideBarFooter />
+      <SideBarFooter onClick={addMemo} />
     </div>
   );
 }
