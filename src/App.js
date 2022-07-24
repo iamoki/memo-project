@@ -4,6 +4,7 @@ import MemoContainer from './components/MemoContainer';
 import SideBar from './components/SideBar';
 
 function App() {
+  // 메모 리스트
   const [memos, setMemos] = useState([
     {
       title: 'Memo 1',
@@ -18,10 +19,23 @@ function App() {
       updatedAt: 1658651109922,
     },
   ]);
+
+  // 어떤 메모를 선택했는지 해당 메모의 인덱스값을 상태로 보존
+  const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
+
+  const setMemo = (newMemo) => {
+    // 불변성 유지를 위해 미리 memos를 카피 후 그안에 newMemo를 삽입
+    const newMemos = [...memos];
+
+    newMemos[selectedMemoIndex] = newMemo;
+
+    setMemos(newMemos);
+  };
+
   return (
     <div className="App">
-      <SideBar memos={memos} />
-      <MemoContainer />
+      <SideBar memos={memos} setSelectedMemoIndex={setSelectedMemoIndex} />
+      <MemoContainer memo={memos[selectedMemoIndex]} setMemo={setMemo} />
     </div>
   );
 }

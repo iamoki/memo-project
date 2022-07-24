@@ -1,8 +1,17 @@
-function MemoList({ memos }) {
+import MemoItem from './MemoItem';
+
+function MemoList({ memos, setSelectedMemoIndex }) {
   return (
     <div>
       {memos.map((memo, index) => (
-        <div key={index}>{memo.title}</div>
+        <MemoItem
+          key={index}
+          onClick={() => {
+            setSelectedMemoIndex(index);
+          }}
+        >
+          {memo.title}
+        </MemoItem>
       ))}
     </div>
   );
