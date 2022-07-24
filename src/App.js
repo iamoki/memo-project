@@ -3,6 +3,10 @@ import './App.css';
 import MemoContainer from './components/MemoContainer';
 import SideBar from './components/SideBar';
 import { getItem, setItem } from './lib/storage';
+import debounce from 'lodash.debounce';
+
+// 로컬스토리지에 입력될때마다 저장되지않도록 5초의 딜레이를 걸어 저장 성능 최적화
+const debouncedSetItem = debounce(setItem, 5000);
 
 function App() {
   // 메모 리스트
@@ -19,7 +23,7 @@ function App() {
     newMemos[selectedMemoIndex] = newMemo;
 
     setMemos(newMemos);
-    setItem('memo', newMemos);
+    debouncedSetItem('memo', newMemos);
   };
 
   // 메모 추가하기
@@ -39,7 +43,7 @@ function App() {
     setMemos(newMemos);
     // 방금 생성한 메모가 선택되게끔 memos의 인덱스 마지막값 가져오기
     setSelectedMemoIndex(memos.length);
-    setItem('memo', newMemos);
+    debouncedSetItem('memo', newMemos);
   };
 
   // 메모 삭제하기
@@ -51,7 +55,7 @@ function App() {
     if (index === selectedMemoIndex) {
       setSelectedMemoIndex(0);
     }
-    setItem('memo', newMemos);
+    debouncedSetItem('memo', newMemos);
   };
 
   return (
