@@ -34,7 +34,11 @@ function App() {
 
   return (
     <div className="App">
-      <SideBar memos={memos} setSelectedMemoIndex={setSelectedMemoIndex} />
+      <SideBar
+        memos={memos}
+        selectedMemoIndex={selectedMemoIndex}
+        setSelectedMemoIndex={setSelectedMemoIndex}
+      />
       <MemoContainer memo={memos[selectedMemoIndex]} setMemo={setMemo} />
     </div>
   );

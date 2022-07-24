@@ -1,6 +1,6 @@
 import MemoItem from './MemoItem';
 
-function MemoList({ memos, setSelectedMemoIndex }) {
+function MemoList({ memos, setSelectedMemoIndex, selectedMemoIndex }) {
   return (
     <div>
       {memos.map((memo, index) => (
@@ -9,6 +9,7 @@ function MemoList({ memos, setSelectedMemoIndex }) {
           onClick={() => {
             setSelectedMemoIndex(index);
           }}
+          isSelected={index === selectedMemoIndex}
         >
           {memo.title}
         </MemoItem>
