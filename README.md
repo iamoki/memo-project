@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# 메모장 프로젝트및 설계 🛠
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. 설계 및 기본 컴포넌트 구현
 
-## Available Scripts
+- 좌측 사이드바에서는 현재 등록된 메모의 목록이, 오른쪽 메모 편집 영역에서는 제목과 내용을 수정할수 있는 입력 폼.
 
-In the project directory, you can run:
+## 2. 메모 수정 및 선택 기능 구현
 
-### `npm start`
+- 사이드바에서 선택한 메모를 오른쪽 편집 영역에서 확인하고 수정가능
+- 수정된 내용은 다른 메도로 이동하더라도 보존
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 3. 메모 추가 기능 구현
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 사이드바의 최하단에는 새로운 메모를 추가할 수 있는 버튼
+- 새로운 메모를 추가하면 초기 제목은 "Untitled"로 설정되며, 내용은 비어있음
+- 새로운 메모를 추가시, 해당 메모가 자동으로 선택됨
 
-### `npm test`
+## 4. 메모 삭제 기능 구현
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 사이드바의 각 메모제목 오른쪽에는 해당 메모를 삭제할 수 있는 X 버튼이 있음
+- X 버튼을 클릭 시, 해당 메모는 삭제되며, 해당 메모를 선택한 상태라면 가장 첫 번째 메모로 선택이 변경
 
-### `npm run build`
+## 5. 메모 저장 기능 구현
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 브라우저를 닫거나 다시열어도 편집한 메모가 유지되도록 localStorage 사용
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## src 폴더구조
 
-### `npm run eject`
+```
+📦src
+ ┣ 📂components
+ ┃ ┣ 📂MemoContainer
+ ┃ ┃ ┣ 📜index.css
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┣ 📂MemoItem
+ ┃ ┃ ┣ 📜index.css
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┣ 📂MemoList
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┣ 📂SideBar
+ ┃ ┃ ┣ 📜index.css
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┣ 📂SideBarFooter
+ ┃ ┃ ┣ 📜index.css
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┗ 📂SideBarHeader
+ ┃ ┃ ┣ 📜index.css
+ ┃ ┃ ┗ 📜index.js
+ ┣ 📂lib
+ ┃ ┗ 📜storage.js
+ ┣ 📜App.css
+ ┣ 📜App.js
+ ┣ 📜index.css
+ ┣ 📜index.js
+ ┣ 📜reportWebVitals.js
+ ┗ 📜setupTests.js
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 사용 라이브러리
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🪛 **lodash**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```javascript
+import debounce from 'lodash.debounce';
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+// 로컬스토리지에 입력될때마다 저장되지않도록 5초의 딜레이를 걸어 저장 성능 최적화
+const debouncedSetItem = debounce(setItem, 5000);
+```
